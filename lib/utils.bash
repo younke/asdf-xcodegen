@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for xcodegen.
 GH_REPO="https://github.com/yonaskolb/XcodeGen"
 
 fail() {
@@ -12,7 +11,6 @@ fail() {
 
 curl_opts=(-fsSL)
 
-# NOTE: You might want to remove this if xcodegen is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
   curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
@@ -25,12 +23,10 @@ sort_versions() {
 list_github_tags() {
   git ls-remote --tags --refs "$GH_REPO" |
     grep -o 'refs/tags/.*' | cut -d/ -f3- |
-    sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+    sed 's/^v//'
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-  # Change this function if xcodegen has other means of determining installable versions.
   list_github_tags
 }
 
@@ -39,8 +35,7 @@ download_release() {
   version="$1"
   filename="$2"
 
-  # TODO: Adapt the release URL convention for xcodegen
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  url="$GH_REPO/releases/download/${version}/xcodegen.zip"
 
   echo "* Downloading xcodegen release $version..."
   curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
@@ -55,15 +50,14 @@ install_version() {
     fail "asdf-xcodegen supports release installs only"
   fi
 
-  # TODO: Adapt this to proper extension and adapt extracting strategy.
-  local release_file="$install_path/xcodegen-$version.tar.gz"
+  local release_file="$install_path/xcodegen-$version.zip"
   (
     mkdir -p "$install_path"
     download_release "$version" "$release_file"
-    tar -xzf "$release_file" -C "$install_path" --strip-components=1 || fail "Could not extract $release_file"
+    unzip "$release_file" -d "$install_path" || fail "Could not extract $release_file"
+    mv $install_path/xcodegen/* $install_path
     rm "$release_file"
 
-    # TODO: Asert xcodegen executable exists.
     local tool_cmd
     tool_cmd="$(echo "xcodegen --help" | cut -d' ' -f1)"
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
