@@ -1,13 +1,10 @@
 name: Lint
+
 on:
-  pull_request:
-    paths-ignore:
-      - "**.md"
   push:
-    paths-ignore:
-      - "**.md"
-  schedule:
-    - cron: "0 0 * * *" # daily at midnight
+    branches:
+      - master
+  pull_request:
 
 jobs:
   shellcheck:
