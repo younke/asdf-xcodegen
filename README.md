@@ -1,6 +1,6 @@
 <div align="center">
 
-# asdf-xcodegen ![Build](https://github.com/younke/asdf-xcodegen/workflows/Build/badge.svg) ![Lint](https://github.com/younke/asdf-xcodegen/workflows/Lint/badge.svg)
+# asdf-xcodegen ![Build](https://github.com/younke/asdf-xcodegen/workflows/Build/badge.svg) ![Lint](https://github.com/younke/asdf-xcodegen/workflows/Lint/badge.svg) ![Test mise](https://github.com/younke/asdf-xcodegen/workflows/Test%20mise/badge.svg)
 
 [XcodeGen](https://github.com/yonaskolb/XcodeGen) plugin for the [asdf version manager](https://asdf-vm.com).
 
