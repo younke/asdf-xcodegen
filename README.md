@@ -1,6 +1,10 @@
 <div align="center">
 
-# asdf-xcodegen ![Build](https://github.com/younke/asdf-xcodegen/workflows/Build/badge.svg) ![Lint](https://github.com/younke/asdf-xcodegen/workflows/Lint/badge.svg) ![Test mise](https://github.com/younke/asdf-xcodegen/workflows/Test%20mise/badge.svg)
+# asdf-xcodegen
+
+[![Build](https://github.com/younke/asdf-xcodegen/actions/workflows/build.yml/badge.svg)](https://github.com/younke/asdf-xcodegen/actions/workflows/build.yml)
+[![Lint](https://github.com/younke/asdf-xcodegen/actions/workflows/lint.yml/badge.svg)](https://github.com/younke/asdf-xcodegen/actions/workflows/lint.yml)
+[![Mise](https://github.com/younke/asdf-xcodegen/actions/workflows/test-mise.yml/badge.svg)](https://github.com/younke/asdf-xcodegen/actions/workflows/test-mise.yml)
 
 [XcodeGen](https://github.com/yonaskolb/XcodeGen) plugin for the [asdf version manager](https://asdf-vm.com).
 
@@ -47,7 +51,6 @@ xcodegen --help
 :warning: Ensure that you have `SettingPresets` copy (related to particular `xcodegen` version) in your project directory before running the command.
 Note that globally installed `xcodegen` keeps `SettingPresets` in `/usr/local/share/xcodegen` folder.
 You might want to delete previous global installation (`brew` etc.).
-
 
 Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to
 install & manage versions.
