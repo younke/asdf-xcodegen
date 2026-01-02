@@ -1,13 +1,15 @@
 name: Build
+
 on:
-  pull_request:
-    paths-ignore:
-      - "**.md"
   push:
-    paths-ignore:
-      - "**.md"
+    branches:
+      - master
+  pull_request:
   schedule:
-    - cron: "0 0 * * *" # daily at midnight
+    - cron: "0 0 * * 5"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   plugin_test:
