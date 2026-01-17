@@ -60,25 +60,27 @@ download_release() {
 install_version() {
 	local install_type="$1"
 	local version="$2"
-	local install_path="${3%/bin}/bin"
+	local install_root="${3%/bin}"
 
 	if [ "$install_type" != "version" ]; then
 		fail "asdf-$TOOL_NAME supports release installs only"
 	fi
 
 	(
-		mkdir -p "$install_path"
+		mkdir -p "$install_root"
 
-		# XcodeGen archive has bin/xcodegen after extraction
-		cp -r "${ASDF_DOWNLOAD_PATH}/bin/${TOOL_NAME}" "$install_path"
+		# Install the full extracted archive (xcodegen binary + bundled resources).
+		# XcodeGen requires additional runtime resources (e.g. share/xcodegen / bundle).
+		cp -R "${ASDF_DOWNLOAD_PATH}/." "$install_root/"
 
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
-		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
+		test -x "$install_root/bin/$tool_cmd" || fail "Expected $install_root/bin/$tool_cmd to be executable."
+		test -d "$install_root/share/xcodegen" -o -d "$install_root/XcodeGen_XcodeGenKit.bundle" || fail "Expected XcodeGen bundled resources to be installed (share/xcodegen or XcodeGen_XcodeGenKit.bundle)."
 
 		echo "$TOOL_NAME $version installation was successful!"
 	) || (
-		rm -rf "$install_path"
+		rm -rf "$install_root"
 		fail "An error occurred while installing $TOOL_NAME $version."
 	)
 }
